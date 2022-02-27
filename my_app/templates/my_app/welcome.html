@@ -1,0 +1,58 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+{% load static %}
+<div class="d-flex justify-content-center">
+  <div class="container">
+    <div class="row">
+      <h1 class="text-center mt-5">Welcome {{user.username}} !</h1>
+      <p class="text-center my-4">
+         Thank you to take some time to complete this study. You will need to complete the following four tasks. You can come back to complete a other task later. You need to complete task 1 before task 2 and task 3 before 4. You can only complete every task once. If you complete all the tasks you can show the results. 
+      </p>
+    </div>
+    <div class="row text-center my-2">
+      <form action="/task1/0" method="get">
+        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if complete_task1 %}disabled{% endif %}>
+          {% if complete_task1 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 1 : Assembly with AR method {% if complete_task1 %}[completed in {{time_task1}}]{% endif %}
+        </button>
+      </form>
+    </div>
+    <div class="row text-center my-2">
+      <form action="/task2/part1" method="get">
+        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if not complete_task1 or complete_task2 %}disabled{% endif %}>
+          {% if not complete_task1 %} <i class="bi bi-lock"></i>{% elif complete_task2 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 2 : Feedback of AR Assembly
+        </button>
+      </form>
+    </div>
+    <div class="row text-center my-2">
+      <form action="/task3/0" method="get">
+        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if complete_task3 %}disabled{% endif %}>
+          {% if complete_task3 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 3 : Assembly with a written guide {% if complete_task3 %}[completed in {{time_task3}}]{% endif %}
+        </button>
+      </form>
+    </div>
+    <div class="row text-center my-2">
+      <form action="/task4/part1" method="get">
+        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if not complete_task3 or complete_task4 %}disabled{% endif %}>
+          {% if not complete_task3 %} <i class="bi bi-lock"></i>{% elif complete_task4 %} <i class="bi bi-check2-circle"></i> {% endif %} Task 4 : Feedback of traditionnal assembly
+        </button>
+      </form>
+    </div>
+    <div class="row text-center my-5">
+      <form action="/results" method="get">
+        <button type="submit" class="btn btn-success btn-lg" {% if not complete %}disabled {% endif %}>
+          {% if not complete %} <i class="bi bi-lock"></i> {% else %} <i class="bi bi-unlock"></i> {% endif %} Show the results</button>
+      </form>
+    </div>
+    {% if user.is_superuser %}
+    <div class="row text-center my-5">
+      <form action="/admin" method="get">
+        <button type="submit" class="btn btn-warning btn-lg">
+          <i class="bi bi-wrench-adjustable"></i> Admin section
+        </button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

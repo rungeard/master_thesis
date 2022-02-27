@@ -1,0 +1,40 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+<div class="container-fluid" style="height: 100vh">
+  <div class="row" style="width: 95%; margin-left:2.5%">
+    <div class="col">
+      <div class="text-start fs-4 my-4" id="timer"></div>
+    </div>
+    <div class="col-6 my-2">
+      <h1 class="text-center">Follow the instructions</h1>
+      <p class="text-center">When you have finished, please click on stop.</p>
+    </div>
+    <div class="col">
+      <div class="text-end my-4">
+        <form action="/task3/1" method="get">
+          <button type="submit" class="btn btn-danger btn-lg">Stop</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div style="height: 85%; width:100%;">
+    <iframe class="border border-dark" src="https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf"  title="testPdf" style="height: 100%; width:95%; display: block; margin-left: auto; margin-right: auto"></iframe>
+  </div>
+</div>
+
+<script>
+  const timerElement = document.getElementById("timer")
+  let temps = 0
+  setInterval(() => {
+      let minutes = parseInt(temps / 60, 10)
+      let secondes = parseInt(temps % 60, 10)
+      
+      minutes = minutes < 10 ? "0" + minutes : minutes
+      secondes = secondes < 10 ? "0" + secondes : secondes
+      
+      timerElement.innerText = `${minutes}:${secondes}`
+      temps += 1
+  }, 1000)
+</script>
+{% endblock content %}

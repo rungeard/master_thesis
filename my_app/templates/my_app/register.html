@@ -1,0 +1,40 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="container">
+    {% if error %}
+    <div class="alert alert-danger my-5" role="alert">
+      Username <b>{{name}}</b> is already in use.
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col ">
+        <h1 class="text-center my-5">Register</h1>        
+      </div>
+    </div>
+        <div class="row justify-content-center">
+          <div class="col col-sm-5">
+            <form action="/register" method="POST">
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+              <div class="mb-3 text-center">
+                <label for="{{ form.name.id_for_label }}" class="form-label fw-bold">Choose a username</label>
+                {{ form.name }}
+              </div>
+              <div class="mb-3 text-center">
+                <label for="{{ form.password.id_for_label }}" class="form-label fw-bold">Choose a password</label>
+                {{ form.password }}
+              </div>
+              <div class="text-center">
+                {{ form.hcaptcha }}
+              </div>
+              <div class="text-center my-3">
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+              </div>
+            </form>
+          </div>
+        </div>
+  </div>
+</div>
+{% endblock content %}

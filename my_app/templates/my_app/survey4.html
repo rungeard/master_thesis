@@ -1,0 +1,33 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+{% load static %}
+<div class="d-flex flex-column align-items-center">
+  <div class="progress mt-5" style="width:90%">
+    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+  </div>
+  <div>
+    <h1 class="text-center my-5">Survey - After-Scenario Questionnaire  </h1>
+    <p class="text-center"><b> For each of the following statements, choose what best correspond to your feeling regarding the {{task}}</b></p>  
+  </div>
+  <form action="/task{{id_path}}/part4" method="POST">
+    {% csrf_token %}
+    <div class="d-flex flex-column align-items-center">
+      {% for key, value in AS_dic.items %}
+      <div class="my-3" style="width: 90%; max-width:20cm">
+        <p> {{value}}</p>
+        <div class="d-flex justify-content-between">
+          <p><b>Disagree</b></p>
+          <p><b>Agree</b></p>
+        </div>
+        <input type="range" class="form-range" min="1" max="7" step="1" id="{{key}}" name="{{key}}">
+      </div>
+      {% endfor %}
+      <div class="text-center">
+        <button type="submit" class="btn btn-success btn-lg my-5">Save my answers <i class="bi bi-send-check"></i></i></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

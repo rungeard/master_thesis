@@ -1,0 +1,33 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+{% load static %}
+<div class="d-flex flex-column align-items-center">
+  <div class="progress mt-5" style="width:90%">
+    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
+  </div>
+  <div>
+    <h1 class="text-center my-5">Survey - System Usability Scale</h1>
+    <p class="text-center"><b> For each of the following statements, choose what best describes your reactions to the {{task}} method today.</b></p>  
+  </div>
+  <form action="/task{{id_path}}/part3" method="POST">
+    {% csrf_token %}
+    <div class="d-flex flex-column align-items-center" >
+      {% for key, value in SUS_dic.items %}
+      <div class="my-3" style="width: 90%; max-width:20cm">
+        <p> {{value}}</p>
+        <div class="d-flex justify-content-between">
+          <p><b>Strongly Disagree</b></p>
+          <p><b>Strongly Agree</b></p>
+        </div>
+        <input type="range" class="form-range" min="1" max="5" step="1" id="{{key}}" name="{{key}}">
+      </div>
+      {% endfor %}
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary btn-lg my-5">Next <i class="bi bi-arrow-right-short"></i></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

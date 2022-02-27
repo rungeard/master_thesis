@@ -1,0 +1,586 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+<h1 class="text-center mt-5"> Results </h1>
+<div class="d-flex justify-content-evenly flex-wrap">
+  <div id="chart1" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div id="chart5" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div id="chart2" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div id="chart3" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div id="chart4" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px">graph on custome questions [TODO]</div>
+  <div class="text-center my-5" style="width: 100%">
+    <form action="/csv_results" method="get">
+      <button type="submit" class="btn btn-primary btn-lg">
+        <i class="bi bi-download"></i> Download all results in CSV
+      </button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // Initialize the echarts instance based on the prepared dom
+  var myChart1 = echarts.init(document.getElementById('chart1'));
+  
+  // Specify the configuration items and data for the chart
+  var option1 = {
+      title: [
+          {
+              text: 'Time spend on assembly task',
+              left: 'center'
+          },
+      ],
+      dataset: [
+          {
+              // prettier-ignore
+              source: [
+                  {{list_time_pdf}}, //PDF
+                  {{list_time_ar}}   //AR
+              ]
+          },
+          {
+              transform: {
+                  type: 'boxplot',
+                  config: {
+                      itemNameFormatter: function (params) {
+                          if (params.value === 0){
+                              return 'PDF guide';
+                          }
+                          else {
+                              return 'AR guide';
+                          }
+                      }
+                  }
+              }
+          },
+          {
+              fromDatasetIndex: 1,
+              fromTransformResult: 1
+          }
+      ],
+      tooltip: {
+          trigger: 'item',
+          axisPointer: {
+              type: 'shadow'
+          }
+      },
+      toolbox: {
+          show: true,
+          feature: {
+              saveAsImage: { show: true }
+          }
+      },
+      grid: {
+          left: '15%',
+          right: '10%',
+          bottom: '15%'
+      },
+      yAxis: {
+          type: 'category',
+          boundaryGap: true,
+          nameGap: 30,
+          splitArea: {
+              show: false
+          },
+          splitLine: {
+              show: false
+          }
+      },
+      xAxis: {
+          type: 'value',
+          name: 'time spend (s)',
+          nameGap: 30,
+          nameLocation: 'center',
+          splitArea: {
+              show: true
+          }
+      },
+      series: [
+          {
+              name: 'boxplot',
+              type: 'boxplot',
+              datasetIndex: 1
+          },
+          {
+              name: 'outlier',
+              type: 'scatter',
+              encode: { x: 1, y: 0 },
+              datasetIndex: 2
+          }
+      ]
+  };
+  // Display the chart using the configuration items and data just specified.
+  myChart1.setOption(option1);
+
+  // Initialize the echarts instance based on the prepared dom
+  var myChart2 = echarts.init(document.getElementById('chart2'));
+  
+  // Specify the configuration items and data for the chart
+  var option2 ={
+      title: {
+          text: 'Nasa TLX results',
+          left: 'center'
+      },
+      tooltip: {
+          trigger: 'axis'
+      },
+      legend: {
+          top : '20',
+          data: ['AR guide', 'PDF guide']
+      },
+      toolbox: {
+          show: true,
+          feature: { 
+              dataZoom:{ show: true },
+              saveAsImage: { show: true },
+          }
+      },
+      calculable: true,
+      xAxis: [
+          {
+              type: 'category',
+              name: 'users',
+              nameGap: 30,
+              nameLocation: 'center',
+          }
+      ],
+      yAxis: [
+          {
+              type: 'value',
+              name: 'Weighted rating (%)',
+              nameGap: 40,
+              nameLocation: 'center',
+          }
+      ],
+      grid: {
+          left: '10%',
+          right: '10%',
+          bottom: '15%'
+      },
+      series: [
+          {
+              name: 'AR guide',
+              type: 'bar',
+              data: {{list_nasa_tlx_ar}},
+              markPoint: {
+                  data: [
+                      { type: 'max', name: 'Max' },
+                      { type: 'min', name: 'Min' }
+                  ]
+              },
+              markLine: {
+                  data: [{ type: 'average', name: 'Avg' }]
+              }
+          },
+          {
+              name: 'PDF guide',
+              type: 'bar',
+              data: {{list_nasa_tlx_pdf}},
+              markPoint: {
+                  data: [
+                      { type: 'max', name: 'Max' },
+                      { type: 'min', name: 'Min' }
+                  ]
+              },
+              markLine: {
+                  data: [{ type: 'average', name: 'Avg' }]
+              }
+          }
+      ]
+  };
+  
+  // Display the chart using the configuration items and data just specified.
+  myChart2.setOption(option2);
+
+  // Initialize the echarts instance based on the prepared dom
+  var myChart3 = echarts.init(document.getElementById('chart3'));
+  
+  // Specify the configuration items and data for the chart
+  var option3 = {
+      title:{
+          text: 'System Usability Scale',
+          left: 'center',
+      },
+      tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+              type: 'shadow' 
+          },
+      },/*
+      legend: {
+          top:'20',
+      },*/
+      toolbox: {
+          show: true,
+          feature: {
+              saveAsImage: { show: true }
+          }
+      },
+      grid: {
+          left: '10%',
+          right: '10%',
+          bottom: '15%',
+          containLabel: true
+      },
+      xAxis: {
+          type: 'value',
+          name: 'number of users',
+          nameGap: 30,
+          nameLocation: 'center',
+      },
+      yAxis: {
+          type: 'category',
+          name: 'questions',
+          nameGap: 30,
+          nameLocation: 'center',
+          data: ['1', '2', '3', '4', '5', '6', '7','8','9','10'],
+      },
+      color:['#ff0000', '#ffa700', '#fff400', '#a3ff00', '#2cba00'],
+      series: [
+          {
+              name: 'Strongly Disagree AR',
+              type: 'bar',
+              stack: 'total_ar',
+              data: {{dic_sus_ar.1}}
+          },
+          {
+              name: 'Disagree AR',
+              type: 'bar',
+              stack: 'total_ar',
+              data: {{dic_sus_ar.2}}
+          },
+          {
+              name: 'Neutral AR',
+              type: 'bar',
+              stack: 'total_ar',
+              data: {{dic_sus_ar.3}}
+          },
+          {
+              name: 'Agree AR',
+              type: 'bar',
+              stack: 'total_ar',
+              data: {{dic_sus_ar.4}}
+          },
+          {
+              name: 'Strongly Agree AR',
+              type: 'bar',
+              stack: 'total_ar',
+              label: {
+                  position: 'right',
+                  show: true,
+                  formatter: 'AR'
+              },
+              data: {{dic_sus_ar.5}}
+          },
+          {
+              name: 'Strongly Disagree PDF',
+              type: 'bar',
+              stack: 'total_pdf',
+              data: {{dic_sus_pdf.1}}
+          },
+          {
+              name: 'Disagree PDF',
+              type: 'bar',
+              stack: 'total_pdf',
+              data: {{dic_sus_pdf.2}}
+          },
+          {
+              name: 'Neutral PDF',
+              type: 'bar',
+              stack: 'total_pdf',
+              data: {{dic_sus_pdf.3}}
+          },
+          {
+              name: 'Agree PDF',
+              type: 'bar',
+              stack: 'total_pdf',
+              data: {{dic_sus_pdf.4}}
+          },
+          {
+              name: 'Strongly Agree PDF',
+              type: 'bar',
+              stack: 'total_pdf',
+              label: {
+                  position: 'right',
+                  show: true,
+                  formatter: 'PDF'
+              },
+              data: {{dic_sus_pdf.5}}
+          },      
+      ]
+  };
+  // Display the chart using the configuration items and data just specified.
+  myChart3.setOption(option3);
+
+  // Initialize the echarts instance based on the prepared dom
+  var myChart4 = echarts.init(document.getElementById('chart4'));
+  
+  // Specify the configuration items and data for the chart
+  var option4 = {
+      title:[
+          {
+              text: ' After-Scenario Questionnaire ',
+              left: 'center',
+          },
+          {
+              text: 'question 1 - AR',
+              left: '20%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'question 2 - AR',
+              left: '50%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'question 3 -AR',
+              left: '80%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'question 1 - PDF',
+              left: '20%',
+              top:'60%',
+              textAlign: 'center'
+          },
+          {
+              text: 'question 2 - PDF',
+              left: '50%',
+              top:'60%',
+              textAlign: 'center'
+          },
+          {
+              text: 'question 3 - PDF',
+              left: '80%',
+              top:'60%',
+              textAlign: 'center'
+          },
+      ],  
+      legend: {
+          top:'20',
+          // data:['Disagree ++', 'Disagree +', 'Disagree', 'Neutral', 'Agree', 'Agree +', 'Agree ++'],
+      },
+      tooltip: {
+      },
+      toolbox: {
+          show: true,
+          feature: { 
+              saveAsImage: { show: true },
+          }
+      },
+      color:['#ff0000','#ff8000','#ffbf00','#fff400', '#bfff00', '#00e639', '#2cba00'],
+      dataset: {
+          source: {
+              'itemName': ['Disagree ++', 'Disagree +', 'Disagree', 'Neutral', 'Agree', 'Agree +', 'Agree ++'],
+              'question1_ar': {{dic_as_ar.1}},
+              'question2_ar': {{dic_as_ar.2}},
+              'question3_ar': {{dic_as_ar.3}},
+              'question1_pdf': {{dic_as_pdf.1}},
+              'question2_pdf': {{dic_as_pdf.2}},
+              'question3_pdf': {{dic_as_pdf.3}},
+          }
+      },
+      series: [
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['20%', '40%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question1_ar',
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['50%', '40%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question2_ar'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['80%', '40%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question3_ar'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['20%', '80%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question1_pdf',
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['50%', '80%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question2_pdf'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['80%', '80%'],
+              encode: {
+                  itemName: 'itemName',
+                  value: 'question3_pdf'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+      ]
+  };
+  
+  // Display the chart using the configuration items and data just specified.
+  myChart4.setOption(option4);
+
+    // Initialize the echarts instance based on the prepared dom
+  var myChart5 = echarts.init(document.getElementById('chart5'));
+  
+  // Specify the configuration items and data for the chart
+  var option5 ={
+      title: {
+          text: 'proportion of correctly assembled parts',
+          left: 'center'
+      },
+      tooltip: {
+          trigger: 'axis'
+      },
+      legend: {
+          top : '20',
+          data: ['AR guide', 'PDF guide']
+      },
+      toolbox: {
+          show: true,
+          feature: { 
+              dataZoom:{ show: true },
+              saveAsImage: { show: true },
+          }
+      },
+      calculable: true,
+      xAxis: [
+          {
+              type: 'category',
+              name: 'users',
+              nameGap: 30,
+              nameLocation: 'center',
+          }
+      ],
+      yAxis: [
+          {
+              type: 'value',
+              name: 'correct parts (%)',
+              nameGap: 40,
+              nameLocation: 'center',
+          }
+      ],
+      grid: {
+          left: '10%',
+          right: '10%',
+          bottom: '15%'
+      },
+      series: [
+          {
+              name: 'AR guide',
+              type: 'bar',
+              data: {{list_parts_ar}},
+              markPoint: {
+                  data: [
+                      { type: 'max', name: 'Max' },
+                      { type: 'min', name: 'Min' }
+                  ]
+              },
+              markLine: {
+                  data: [{ type: 'average', name: 'Avg' }]
+              }
+          },
+          {
+              name: 'PDF guide',
+              type: 'bar',
+              data: {{list_parts_pdf}},
+              markPoint: {
+                  data: [
+                      { type: 'max', name: 'Max' },
+                      { type: 'min', name: 'Min' }
+                  ]
+              },
+              markLine: {
+                  data: [{ type: 'average', name: 'Avg' }]
+              }
+          }
+      ]
+  };
+  
+  // Display the chart using the configuration items and data just specified.
+  myChart5.setOption(option5);
+
+  window.addEventListener('resize',function(){
+      myChart1.resize();
+  })
+  
+  window.addEventListener('resize',function(){
+      myChart2.resize();
+  })
+  
+  window.addEventListener('resize',function(){
+      myChart3.resize();
+  })
+  
+  window.addEventListener('resize',function(){
+      myChart4.resize();
+  })
+
+  window.addEventListener('resize',function(){
+      myChart5.resize();
+  })
+</script>
+
+{% endblock content %}
