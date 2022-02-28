@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'VRCue_evaluation.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'VRCue_evaluation.settings.production')
 
 application = get_wsgi_application()
