@@ -209,7 +209,7 @@ def task22(request, id_question, answer=None, nasa_tlx_dic=nasa_tlx_dic, AR=True
             nasa_tlx.Physical_Demand_or_Temporal_Demand = answer
             nasa_tlx.save()
             return redirect('/task%s/part2/6'%id_path)
-        elif id_question == 6 and answer in ['Physical Deamnd','Performance'] :
+        elif id_question == 6 and answer in ['Physical Demand','Performance'] :
             nasa_tlx.Physical_Demand_or_Performance = answer
             nasa_tlx.save()
             return redirect('/task%s/part2/7'%id_path)
@@ -434,7 +434,7 @@ def task3(request, start):
         return redirect('welcome')
 
 @login_required
-def results(request):
+def results(request, SUS_dic=SUS_dic, AS_dic=AS_dic):
     if not complete_study(request.user)[4] :
         return redirect('welcome')
         

@@ -23,17 +23,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-plh^z!lmcq2qdg$(c@qo9umyt($c$bi=l8+tj-iq&%c(=kt$=k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True    
+DEBUG = False
 
 # PRODUCTION Settings
-#ALLOWED_HOSTS = ['masterthesis.rungeard.eu']
-#CSRF_COOKIE_SECURE = True
+
+#ALLOWED_HOSTS = ['masterthesis.rungeard.eu','https://masterthesis.rungeard.eu','[2001:41d0:a:4558::574d:e4d3]']
+#CSRF_TRUSTED_ORIGINS = ['https://masterthesis.rungeard.eu']
+#SRF_COOKIE_SECURE = True
 #SESSION_COOKIE_SECURE = True
 
 #HCAPTCHA_SITEKEY = '4608c894-bbea-4625-85b4-af1936a48ff7'
 #HCAPTCHA_SECRET = '0xE8E0D447Ea4B57cDA68A368044fCcc1802B894a2'
 
-#STATIC_ROOT = "/var/www/example.com/static/"
+#STATIC_ROOT = "/home/admin/static/"
+
+#SECURE_HSTS_SECONDS = 3600
+#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#SECURE_HSTS_PRELOAD=True
 
 # Application definition
 
