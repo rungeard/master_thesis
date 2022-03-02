@@ -1,6 +1,7 @@
 {% extends "my_app/template.html" %}
 
 {% block content %}
+{% load static %}
 <div class="container-fluid" style="height: 100vh">
   <div class="row" style="width: 95%; margin-left:2.5%">
     <div class="col">
@@ -19,7 +20,7 @@
     </div>
   </div>
   <div style="height: 85%; width:100%;">
-    <iframe class="border border-dark" src="https://dagrs.berkeley.edu/sites/default/files/2020-01/sample.pdf"  title="testPdf" style="height: 100%; width:95%; display: block; margin-left: auto; margin-right: auto"></iframe>
+    <iframe class="border border-dark" src="{% static 'my_app/PDF_guide.pdf' %}"  title="Assembly guide" style="height: 100%; width:95%; display: block; margin-left: auto; margin-right: auto"></iframe>
   </div>
 </div>
 
