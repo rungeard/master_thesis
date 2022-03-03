@@ -11,11 +11,11 @@
       </p>
     </div>
     <div class="row text-center my-2">
-      <form action="/task1/0" method="get">
-        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if complete_task1 %}disabled{% endif %}>
+      <div>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#ModalTask1" style="width:75%;" {% if complete_task1 %}disabled{% endif %}>
           {% if complete_task1 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 1 : Assembly with AR method {% if complete_task1 %}[completed in {{time_task1}}]{% endif %}
         </button>
-      </form>
+      </div>
     </div>
     <div class="row text-center my-2">
       <form action="/task2/part1" method="get">
@@ -25,11 +25,11 @@
       </form>
     </div>
     <div class="row text-center my-2">
-      <form action="/task3/0" method="get">
-        <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if complete_task3 %}disabled{% endif %}>
+      <div>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#ModalTask3" style="width:75%;" {% if complete_task3 %}disabled{% endif %}>
           {% if complete_task3 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 3 : Assembly with a written guide {% if complete_task3 %}[completed in {{time_task3}}]{% endif %}
         </button>
-      </form>
+      </div>
     </div>
     <div class="row text-center my-2">
       <form action="/task4/part1" method="get">
@@ -55,4 +55,69 @@
     {% endif %}
   </div>
 </div>
+
+<!-- Modal task 1-->
+<div class="modal fade" id="ModalTask1" tabindex="-1" aria-labelledby="ModalLabelTask1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabelTask1">Explanation of task 1</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p align="justify">Your first task will be to assemble wooden pieces with the help of an augmented reality guide. To follow this guide you will wear the Microsoft Hololens 2 headset.</p>
+        <p align="justify">Once the application is launched, the interface will look like the picture below:</p>
+        <div class="text-center my-3">
+          <img src="{% static 'my_app/AR_overview.png' %}" class="rounded" style="min-width:10cm; width:90%">
+        </div>
+        <p align="justify">First check that the QR codes markers are correctly positioned and detected. </p>
+        <p align="justify">You must perform the steps in order. To move from one step to another, press the yellow buttons "previous" and "next". </p>
+        <p align="justify">To launch a step press the "play" button. Below an animation shows you the desactivation of the play function. </p>
+        <div class="text-center my-3">
+          <img src="{% static 'my_app/play.gif' %}" class="rounded" style="min-width:5cm; width:30%">
+        </div>
+        <p align="justify">At any time, you can pause the recording by grabbing the head of the ghost. The following animation shows you how to do this. </p>
+        <div class="text-center my-3">
+          <img src="{% static 'my_app/pause.gif' %}" class="rounded" style="min-width:10cm; width:60%">
+        </div>
+        <p align="justify"> Finally, it is possible to reverse the playback direction at any time by pressing the "reverse" button. Example of activation of the reverse function:</p>
+        <div class="text-center my-3">
+          <img src="{% static 'my_app/reverse.gif' %}" class="rounded" style="min-width:5cm; width:30%">
+        </div>
+        <p align="justify"><b>By clicking on "Start", you will arrive on a page presenting a <i class="bi bi-stopwatch"></i> chronometer that will measure the time you take to complete the assembly. Don't forget to click on "Stop" at the end to record your time.</b></p>
+        <p align="justify">You can now launch the application on the Hololens. When you are ready click on "Start". The countdown starts as soon as you click on "Start". </p>
+
+      </div>
+      <div class="modal-footer">
+        <form action="/task1/0" method="get">
+          <button type="submit" class="btn btn-success btn-lg" {% if complete_task1 %}disabled{% endif %}>Start</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal task 3-->
+<div class="modal fade" id="ModalTask3" tabindex="-1" aria-labelledby="ModalLabelTask3" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabelTask3">Explanation of task 3</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p align="justify">Your third task will be to assemble wooden pieces with the help of an written PDF guide.</p>
+        <p align="justify"><b>By clicking on "Start", you will arrive on a page presenting the PDF document and a <i class="bi bi-stopwatch"></i> chronometer that will measure the time you take to complete the assembly. Don't forget to click on "Stop" at the end to record your time.</b></p>
+        <p align="justify">When you are ready click on "Start". The countdown starts as soon as you click on "Start". </p>
+      </div>
+      <div class="modal-footer">
+        <form action="/task3/0" method="get">
+          <button type="submit" class="btn btn-success btn-lg" {% if complete_task3 %}disabled{% endif %}>Start</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

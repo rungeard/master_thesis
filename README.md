@@ -4,6 +4,7 @@
 
 ### Requirements :
 You should have Python >= 3.9 and pip install on your computer
+
 Having a dedicated python env for this project is strongly recommended 
 
 ### Installation
@@ -32,6 +33,7 @@ python manage.py runserver
 Follow the same intructions as in development except `python manage.py runserver`
 
 For production, you'll need to obtain your hCaptcha site key and secret key and add them to your settings.
+
 This project is setup so that you can overwrite settings in production by creating a `production.py` file in `/VRCUe_evaluation/settings`
 
 example of what `production.py` can look like :
@@ -57,4 +59,5 @@ SECURE_HSTS_PRELOAD=True
 ```
 
 You will then need to [deploy a webserver](https://docs.djangoproject.com/en/4.0/howto/deployment/)
+
 This was successfully tested with gunicorn and Nginx.
