@@ -2,6 +2,73 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Custome_questions(models.Model):
+    class Meta: 
+        verbose_name = "Custome question"
+        verbose_name_plural = "Custom questions"
+        
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
+    age = models.CharField(
+        choices=[
+            ('1', '-20 '),
+            ('2', '20 - 30'),
+            ('3', '30 - 40'),
+            ('4', '40 - 50'),
+            ('5', '50 - 60'),
+            ('6', '+60'),
+            (None, 'Not answered'),
+        ],
+        max_length=20,
+        default=None,
+        null=True,
+    )
+    experience = models.CharField(
+        choices=[
+            ('1', 'This is my first experience in augmented reality'),
+            ('2', 'I had already experimented augmented reality'),
+            ('3', 'I regularly use augmented reality'),
+            (None, 'Not answered'),
+        ],
+        max_length=150,
+        default=None,
+        null=True,
+    )
+    discomfort = models.CharField(
+        choices=[
+            ('0', 'No'),
+            ('1', 'Yes'),
+            (None, 'Not answered'),
+        ],
+        max_length=20,
+        default=None,
+        null=True,
+    )
+    daily_use = models.CharField(
+        choices=[
+            ('1', 'I would like it'),
+            ('0', 'I would prefer a traditional method'),
+            (None, 'Not answered'),
+        ],
+        max_length=50,
+        default=None,
+        null=True,
+    )
+    pause_function = models.PositiveSmallIntegerField(null=True)
+    speed = models.PositiveSmallIntegerField(null=True)
+    visibility = models.PositiveSmallIntegerField(null=True)
+    free_text = models.TextField(null=True)
+
+    def complete(self):
+        b = True 
+        b *= self.age != None
+        b *= self.experience != None
+        b *= self.discomfort != None
+        b *= self.daily_use != None
+        b *= self.pause_function != None
+        b *= self.speed != None 
+        b *= self.visibility != None
+        return bool(b)
+    
 class Time_spend_AR(models.Model):
     class Meta: 
         verbose_name = "time spent for assembly in AR "
@@ -36,10 +103,13 @@ class Assembly(models.Model):
     AR = models.PositiveSmallIntegerField(null=True)
     PDF = models.PositiveSmallIntegerField(null=True)
     def proportion_AR(self):
-        return (self.AR / 100)*100
+        return round((self.AR / 57)*100,2)
 
     def proportion_PDF(self):
-        return (self.PDF / 100)*100
+        return round((self.PDF / 57)*100,2)
+
+    def complete(self):
+        return self.AR != None and self.PDF != None
            
 class NASA_TLX_AR(models.Model):
     class Meta: 

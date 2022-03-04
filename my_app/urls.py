@@ -13,6 +13,7 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
     path('welcome', views.welcome, name='welcome'),
+    path('welcome/first_connection', views.welcome, {'first_connection':True}, name='welcome_new'),
     path('results', views.results, name='results'),
     path('csv_results', views.csv_results, name='csv_results'),
     
@@ -23,6 +24,7 @@ urlpatterns = [
     path('task2/part2/<int:id_question>/<str:answer>', views.task22, name='task22_answer'),
     path('task2/part3', views.task23, name='task23'),
     path('task2/part4', views.task24, name='task24'),
+    path('task2/part5', views.task25, name='task25'),
     
     path('task3/<int:start>/', views.task3, name='task3'),
 

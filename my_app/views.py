@@ -7,6 +7,8 @@ from .forms import *
 from .models import *
 from datetime import datetime
 import csv
+import random
+import string
 
 nasa_tlx_dic = {
     "Mental Demand":"How much mental and perceptual activity was required (e.g. thinking, deciding, calculating, remembering, looking, searching, etc)? Was the task easy or demanding, simple or complex, exacting or forgiving?",
@@ -43,6 +45,7 @@ def complete_study(user):
     complete_subtask2= NASA_TLX_AR.objects.filter(user = user).exists() and NASA_TLX_AR.objects.get(user = user).complete()
     complete_subtask2 *= SUS_AR.objects.filter(user = user).exists() and SUS_AR.objects.get(user = user).complete()
     complete_subtask2 *= AS_AR.objects.filter(user = user).exists() and AS_AR.objects.get(user = user).complete()
+    complete_subtask2 *= Custome_questions.objects.filter(user = user).exists() and Custome_questions.objects.get(user = user).complete()
     complete_task2 += complete_subtask2
 
     complete_task4=False
@@ -59,22 +62,18 @@ def index(request):
     return render(request, 'my_app/index.html')
 
 def register(request):
-    error = False
     if request.method == "POST":
         form = Register_form(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["name"]
+            name = ''.join(random.choice(string.ascii_lowercase) for x in range(6))
             password = form.cleaned_data["password"]
-            if User.objects.filter(username=name).exists():
-                error = True
-            else :
-                User.objects.create_user(name, None, password)
-                user = authenticate(request, username=name, password=password) 
-                if user: 
-                    dj_login(request, user) 
-                    return redirect('welcome')
-                else :
-                    error =True
+            while User.objects.filter(username=name).exists():
+                name = ''.join(random.choice(string.ascii_lowercase) for x in range(6))
+            User.objects.create_user(name, None, password)
+            user = authenticate(request, username=name, password=password) 
+            if user: 
+                dj_login(request, user) 
+                return redirect('welcome_new')
     else:
         form = Register_form()
     return render(request, 'my_app/register.html', locals())
@@ -102,7 +101,7 @@ def logout(request):
     return redirect('login')
 
 @login_required
-def welcome(request):
+def welcome(request, first_connection=False):
     complete_task1 = complete_study(request.user)[0]
     complete_task2 = complete_study(request.user)[1]
     complete_task3 = complete_study(request.user)[2]
@@ -408,14 +407,46 @@ def task24(request, AS_dic = AS_dic, AR = True):
         else:
             aso = AS_PDF.objects.get(user = request.user)
     if aso.complete():
-        return redirect('welcome')
+        if AR :
+            return redirect('task25')
+        else:
+            return redirect('welcome')
     if request.method == "POST":       
         aso.question1 = int(request.POST['question1'])
         aso.question2 = int(request.POST['question2'])
         aso.question3 = int(request.POST['question3'])
         aso.save()
-        return redirect('welcome')
+        if AR :
+            return redirect('task25')
+        else:
+            return redirect('welcome')
     return render(request, 'my_app/survey4.html', locals())
+
+@login_required
+def task25(request):
+    if not Custome_questions.objects.filter(user = request.user).exists():
+        c = Custome_questions(user = request.user)
+        c.save()
+    else:
+        c = Custome_questions.objects.get(user = request.user)
+
+    if c.complete():
+        return redirect('welcome')
+
+    if request.method == "POST":
+        c.age = request.POST['age']
+        c.experience = request.POST['experience']
+        c.discomfort = request.POST['discomfort']
+        c.daily_use = request.POST['daily_use']
+        c.pause_function = int(request.POST['pause_function'])
+        c.speed = int(request.POST['speed'])
+        c.visibility = int(request.POST['visibility'])
+        c.free_text = request.POST['free_text'].replace(',',';')
+        c.save()
+        
+        return redirect('welcome')
+    
+    return render(request, 'my_app/survey5.html', locals())
 
 @login_required
 def task3(request, start):
@@ -440,25 +471,30 @@ def results(request, SUS_dic=SUS_dic, AS_dic=AS_dic):
         
     list_time_ar = [];
     for t in Time_spend_AR.objects.all():
-        list_time_ar.append(t.time_spent().total_seconds())
+        if t.complete():
+            list_time_ar.append(t.time_spent().total_seconds())
 
     list_time_pdf = [];
     for t in Time_spend_PDF.objects.all():
-        list_time_pdf.append(t.time_spent().total_seconds())
+        if t.complete():
+            list_time_pdf.append(t.time_spent().total_seconds())
 
     list_nasa_tlx_ar =[]
     for n in NASA_TLX_AR.objects.all():
-        list_nasa_tlx_ar.append(n.Overall())
+        if n.complete():
+            list_nasa_tlx_ar.append(n.Overall())
 
     list_nasa_tlx_pdf =[]
     for n in NASA_TLX_PDF.objects.all():
-        list_nasa_tlx_pdf.append(n.Overall())
+        if n.complete():
+            list_nasa_tlx_pdf.append(n.Overall())
 
     list_parts_ar=[]
     list_parts_pdf=[]
     for n in Assembly.objects.all():
-        list_parts_ar.append(n.proportion_AR())
-        list_parts_pdf.append(n.proportion_PDF())
+        if n.complete():
+            list_parts_ar.append(n.proportion_AR())
+            list_parts_pdf.append(n.proportion_PDF())
 
     dic_sus_ar = {}
     dic_sus_pdf = {}
@@ -504,6 +540,24 @@ def results(request, SUS_dic=SUS_dic, AS_dic=AS_dic):
         dic_as_ar[str(3)].append(AS_AR.objects.filter(question3=x).count())
         dic_as_pdf[str(3)].append(AS_PDF.objects.filter(question3=x).count())
 
+    dic_custom = {}
+    for x in ['age','experience','method','pause','speed','visibility']:
+        dic_custom[str(x)]=[]
+
+    for x in [1,2,3,4,5,6]:
+        dic_custom['age'].append(Custome_questions.objects.filter(age=str(x)).count())
+
+    for x in [1,2,3]:
+        dic_custom['experience'].append(Custome_questions.objects.filter(experience=str(x)).count())
+
+    for x in [0,1]:
+        dic_custom['method'].append(Custome_questions.objects.filter(daily_use=str(x)).count())
+
+    for x in [1,2,3,4,5]:
+        dic_custom['pause'].append(Custome_questions.objects.filter(pause_function=x).count())
+        dic_custom['speed'].append(Custome_questions.objects.filter(speed=x).count())
+        dic_custom['visibility'].append(Custome_questions.objects.filter(visibility=x).count())
+        
         
     return render(request, 'my_app/results.html', locals())
 
@@ -574,8 +628,16 @@ def csv_results(request):
                      'as question 1 PDF',
                      'as question 2 PDF',
                      'as question 3 PDF',
-                     'number of coorct parts in AR',
-                     'number of coorct parts with PDF',
+                     'age group',
+                     'experience',
+                     'discomfort',
+                     'daily_use',
+                     'pause_function',
+                     'speed',
+                     'visibility',
+                     'free_text',
+                     'number of correct parts in AR',
+                     'number of correct parts with PDF'
                      
     ])
     for u in User.objects.all():
@@ -588,7 +650,8 @@ def csv_results(request):
             sus_pdf = SUS_PDF.objects.get(user=u)
             as_ar = AS_AR.objects.get(user=u)
             as_pdf = AS_PDF.objects.get(user=u)
-            l = []
+            c = Custome_questions.objects.get(user=u)
+            l = ['','']
             if Assembly.objects.filter(user=u).exists():
                 assembly = Assembly.objects.get(user=u)
                 l = [assembly.AR,assembly.PDF]
@@ -646,7 +709,15 @@ def csv_results(request):
                              sus_pdf.question10,
                              as_pdf.question1,
                              as_pdf.question2,
-                             as_pdf.question3                  
+                             as_pdf.question3,
+                             c.age,
+                             c.experience,
+                             c.discomfort,
+                             c.daily_use,
+                             c.pause_function,
+                             c.speed,
+                             c.visibility,
+                             c.free_text
             ]+l)
             
     return response

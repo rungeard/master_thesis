@@ -1,0 +1,101 @@
+{% extends "my_app/template.html" %}
+
+{% block content %}
+{% load static %}
+<div class="d-flex flex-column align-items-center">
+  <div class="progress mt-5" style="width:90%">
+    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+  </div>
+  <div>
+    <h1 class="text-center my-5">Survey - General questions</h1>
+    <p class="text-center"><b> Please answer the following questions.</b></p>  
+  </div>
+  <form action="/task2/part5" method="POST">
+    {% csrf_token %}
+    <div class="d-flex flex-column align-items-center">
+
+       <div class="my-3" style="width: 90vw; max-width:20cm">
+         <p> How old are you? </p>
+         <select class="form-select" id="age" name="age" required>
+           <option value="1"> age &lt; 20 </option>
+           <option value="2"> 20 &le; age &lt; 30 </option>
+           <option value="3"> 30 &le; age &lt; 40 </option>
+           <option value="4"> 40 &le; age &lt; 50 </option>
+           <option value="5"> 50 &le; age &lt; 60 </option>
+           <option value="6"> 60 &le; age </option>
+         </select>
+       </div>
+
+       <div class="my-3" style="width: 90vw; max-width:20cm">
+         <p> Did you have some previous experience with AR? </p>
+         <select class="form-select" id="experience" name="experience" required>
+           <option value="1"> This is my first experience in augmented reality </option>
+           <option value="2"> I had already experimented augmented reality </option>
+           <option value="3"> I regularly use augmented reality </option>
+         </select>
+      </div>
+      
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> Did you feel any discomfort (nausea, headache, etc.) during the experimentation in augmented reality? </p>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="discomfort" id="yes_discomfort" value="1" required>
+          <label class="form-check-label" for="yes_discomfort">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="discomfort" id="no_discomfort" value="0">
+          <label class="form-check-label" for="no_discomfort">No</label>
+        </div>
+      </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> If you were to use this method on a daily basis, would you like it (or would you prefer a more traditional method)? </p>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="daily_use" id="yes_daily_use" value="1" required>
+          <label class="form-check-label" for="yes_daily_use">I would like it</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="daily_use" id="no_daily_use" value="0">
+          <label class="form-check-label" for="no_daily_use">I would prefer a traditional method</label>
+        </div>
+      </div>
+      
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> Did you find the pause function (grabbing the ghost's head) easy to use? </p>
+        <div class="d-flex justify-content-between">
+          <p><b>very difficult</b></p>
+          <p><b>very easy</b></p>
+        </div>
+        <input type="range" class="form-range" min="1" max="5" step="1" id="pause_function" name="pause_function">
+      </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> How did you find the playback speed of the recording? </p>
+        <div class="d-flex justify-content-between">
+          <p><b>too slow</b></p>
+          <p><b>too fast</b></p>
+        </div>
+        <input type="range" class="form-range" min="1" max="5" step="1" id="speed" name="speed">
+      </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> Were the virtual objects easy to see? </p>
+        <div class="d-flex justify-content-between">
+          <p><b>difficult to distinguish</b></p>
+          <p><b>perfectly visible</b></p>
+        </div>
+        <input type="range" class="form-range" min="1" max="5" step="1" id="visibility" name="visibility">
+      </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <label for="free_text" class="form-label">Any other comments ?</label>
+        <textarea class="form-control" name="free_text" id="free_text" rows="5" placeholder="Feel free to express yourself"></textarea>
+      </div>
+      
+      <div class="text-center">
+        <button type="submit" class="btn btn-success btn-lg my-5">Save my answers <i class="bi bi-send-check"></i></i></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

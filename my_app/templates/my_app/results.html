@@ -5,9 +5,9 @@
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
 <h1 class="text-center mt-5"> Results </h1>
 <div class="d-flex justify-content-evenly flex-wrap">
-  <div id="chart1" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
   <div id="chart5" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
-  <div style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px">graph on custome questions [TODO]</div>
+  <div id="chart1" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
+  <div id="chart6" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
   <div id="chart2" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
   <div id="chart3" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
   <div id="chart4" style="width: 45vw; height:40vh; min-width:15cm; min-height:5cm; top:30px"></div>
@@ -206,6 +206,7 @@
               name: 'Weighted rating (%)',
               nameGap: 40,
               nameLocation: 'center',
+              max:120
           }
       ],
       grid: {
@@ -574,6 +575,7 @@
               name: 'correct parts (%)',
               nameGap: 40,
               nameLocation: 'center',
+              max:120
           }
       ],
       grid: {
@@ -616,6 +618,175 @@
   // Display the chart using the configuration items and data just specified.
   myChart5.setOption(option5);
 
+   // Initialize the echarts instance based on the prepared dom
+  var myChart6 = echarts.init(document.getElementById('chart6'));
+  
+  // Specify the configuration items and data for the chart
+  var option6 = {
+      title:[
+          {
+              text: ' Custom questions ',
+              left: 'center',
+          },
+          {
+              text: 'age',
+              left: '20%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'experience',
+              left: '50%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'prefer method',
+              left: '80%',
+              top:'20%',
+              textAlign: 'center'
+          },
+          {
+              text: 'pause function',
+              left: '20%',
+              top:'60%',
+              textAlign: 'center'
+          },
+          {
+              text: 'speed',
+              left: '50%',
+              top:'60%',
+              textAlign: 'center'
+          },
+          {
+              text: 'visibility',
+              left: '80%',
+              top:'60%',
+              textAlign: 'center'
+          },
+      ],
+      tooltip: {
+      },
+      toolbox: {
+          show: true,
+          feature: { 
+              saveAsImage: { show: true },
+          }
+      },
+      dataset: {
+          source: {
+              'itemAge': ['age < 20', '20 ≤ age < 30', '30 ≤ age < 40', ' 40 ≤ age < 50 ', '50 ≤ age < 60', ' 60 ≤ age'],
+              'itemExperience': ['This is my first experience in augmented reality', ' I had already experimented augmented reality', 'I regularly use augmented reality'],
+              'itemMethod': ['traditionnal method','AR'],
+              'itemPause': ['Very difficult', 'Difficult +', 'Neutral', 'Easy', 'Very easy'],
+              'itemSpeed': ['Too slow', 'Slow +', 'Fine', 'Fast', 'Too fast'],
+              'itemVisibility': ['Very difficult to distinguish', 'Difficult to distinguish', 'Neutral', 'Visible', 'Perfectly visible'],
+
+              'age': {{dic_custom.age}},
+              'experience': {{dic_custom.experience}},
+              'method': {{dic_custom.method}},
+              'pause': {{dic_custom.pause}},
+              'speed': {{dic_custom.speed}},
+              'visibility': {{dic_custom.visibility}},
+          }
+      },
+      series: [
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['20%', '40%'],
+              encode: {
+                  itemName: 'itemAge',
+                  value: 'age',
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['50%', '40%'],
+              encode: {
+                  itemName: 'itemExperience',
+                  value: 'experience'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['80%', '40%'],
+              encode: {
+                  itemName: 'itemMethod',
+                  value: 'method'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['20%', '80%'],
+              encode: {
+                  itemName: 'itemPause',
+                  value: 'pause',
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['50%', '80%'],
+              encode: {
+                  itemName: 'itemSpeed',
+                  value: 'speed'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+          {
+              type: 'pie',
+              radius: '25%',
+              center: ['80%', '80%'],
+              encode: {
+                  itemName: 'itemVisibility',
+                  value: 'visibility'
+              },
+              label: {
+                  show: false,
+              },
+              labelLine: {
+                  show: false
+              },
+          },
+      ]
+  };
+  
+  // Display the chart using the configuration items and data just specified.
+  myChart6.setOption(option6);
+
   window.addEventListener('resize',function(){
       myChart1.resize();
   })
@@ -634,6 +805,10 @@
 
   window.addEventListener('resize',function(){
       myChart5.resize();
+  })
+
+  window.addEventListener('resize',function(){
+      myChart6.resize();
   })
 </script>
 
