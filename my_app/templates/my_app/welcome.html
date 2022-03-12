@@ -27,7 +27,7 @@
     <div class="row text-center my-2">
       <form action="/task2/part1" method="get">
         <button type="submit" class="btn btn-primary btn-lg" style="width:75%;" {% if not complete_task1 or complete_task2 %}disabled{% endif %}>
-          {% if not complete_task1 %} <i class="bi bi-lock"></i>{% elif complete_task2 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 2 : Feedback of AR Assembly
+          {% if not complete_task1 %} <i class="bi bi-lock"></i>{% elif complete_task2 %}<i class="bi bi-check2-circle"></i>{% endif %} Task 2 : Feedback of AR assembly
         </button>
       </form>
     </div>
@@ -72,7 +72,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p align="justify">Your first task will be to assemble wooden pieces with the help of an augmented reality guide. To follow this guide you will wear the Microsoft Hololens 2 headset.</p>
+        <p align="justify">Your first task will be to assemble wooden pieces with the help of an augmented reality (AR) guide. To follow this guide you will wear the Microsoft Hololens 2 headset.</p>
         <p align="justify">Once the application is launched, the interface will look like the picture below:</p>
         <div class="text-center my-3">
           <img src="{% static 'my_app/AR_overview.png' %}" class="rounded" style="min-width:10cm; width:90%">
@@ -87,7 +87,7 @@
         <div class="text-center my-3">
           <img src="{% static 'my_app/pause.gif' %}" class="rounded" style="min-width:10cm; width:60%">
         </div>
-        <p align="justify"> Finally, it is possible to reverse the playback direction at any time by pressing the "reverse" button. Example of activation of the reverse function:</p>
+        <p align="justify"> Finally, it is possible to reverse the playback direction at any time by pressing the "reverse" button. Example of desactivation of the reverse function:</p>
         <div class="text-center my-3">
           <img src="{% static 'my_app/reverse.gif' %}" class="rounded" style="min-width:5cm; width:30%">
         </div>
