@@ -39,3 +39,4 @@ admin.site.register(AS_AR)
 admin.site.register(AS_PDF)
 
 admin.site.register(Assembly)
+admin.site.register(Custome_questions)
