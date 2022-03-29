@@ -19,16 +19,16 @@ nasa_tlx_dic = {
     "Frustration":"How insecure, discouraged, irritated, stressed and annoyed versus secure, gratified, content, relaxed and complacent did you feel during the task?"
 }
 
-SUS_dic = {"question1":"I think that I would like to use this system frequently",
-           "question2":"I found the system unnecessarily complex.",
-           "question3":"I thought the system was easy to use.",
-           "question4":"I think that I would need the support of a technical person to be able to use this system.",
-           "question5":"I found the various functions in this system were well integrated.",
-           "question6":"I thought there was too much inconsistency in this system.",
-           "question7":"I would imagine that most people would learn to use this system very quickly.",
-           "question8":"I found the system very cumbersome/awkward to use.",
-           "question9":"I felt very confident using the system.",
-           "question10":"I needed to learn a lot of things before I could get going with this system."
+SUS_dic = {"question1":"I think that I would like to use this guide frequently",
+           "question2":"I found the guide unnecessarily complex.",
+           "question3":"I thought the guide was easy to use.",
+           "question4":"I think that I would need the support of a technical person to be able to use this guide.",
+           "question5":"I found the various functionalities in this guide were well integrated.",
+           "question6":"I thought there was too much inconsistency in this guide.",
+           "question7":"I would imagine that most people would learn to use this guide very quickly.",
+           "question8":"I found the guide very cumbersome/awkward to use.",
+           "question9":"I felt very confident using the guide.",
+           "question10":"I needed to learn a lot of things before I could get going with this guide."
 }
 
 AS_dic = {"question1":"Overall, I am satisfied with the ease of completing the tasks in this scenario",

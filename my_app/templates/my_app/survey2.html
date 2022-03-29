@@ -8,36 +8,39 @@
   </div>
   <div>
     <h1 class="text-center my-5">Survey - NASA TLX part2 </h1>
-    <p class="text-center"><b>Click on the factor that represents the more important contributor to workload for the {{task}}</b></p>  
+    <p class="text-center"><b>Which of this two factors was the most challenging/demanding for the {{task}} ?</b></p>  
   </div>
-  <div class="d-flex justify-content-center my-5">
-    
-    <div class="card me-3" style="max-width:8cm">
-      <h3 class="card-header text-center">{{ item1 }}</h3>
-      <div class="card-body d-flex flex-column justify-content-between align-items-center">
-        <p align="justify" class="card-text">{{description1}}</p>
-        <form action="/task{{id_path}}/part2/{{id_question}}/{{item1}}" method="POST">
-          {% csrf_token %}
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">{{item1}}</button>
-          </div>
-        </form>
+
+  <div class="d-flex justify-content-center align-items-stretch flex-wrap my-3">
+    <form action="/task{{id_path}}/part2/{{id_question}}/{{item1}}" method="POST" class="m-1">
+      {% csrf_token %}
+      <div class="text-center" style="height:100%">
+        <button type="submit" class="btn btn-lg btn-primary" style="width:15em; height:100%">{{item1}}</button>
       </div>
-    </div>
-    
-    <div class="card" style="max-width:8cm">
-      <h3 class="card-header text-center">{{item2}}</h3>
-      <div class="card-body d-flex flex-column justify-content-between align-items-center">
-        <p align="justify" class="card-text">{{description2}}</p>
-        <form action="/task{{id_path}}/part2/{{id_question}}/{{item2}}" method="POST">
-          {% csrf_token %}
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary">{{item2}}</button>
-          </div>
-        </form>
+    </form>
+    <form action="/task{{id_path}}/part2/{{id_question}}/{{item2}}" method="POST" class="m-1">
+      {% csrf_token %}
+      <div class="text-center" style="height:100%">
+        <button type="submit" class="btn btn-lg btn-primary" style="width:15em; height:100%">{{item2}}</button>
       </div>
+    </form>
+  </div>
+  <p>
+    <a data-bs-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+        <i class="bi bi-info-circle"></i> What is the difference ? 
+    </a>
+  </p>
+  <div class="collapse" id="collapse">
+    <div class="card card-body" style="max-width:15cm">
+      <p>
+        <b>{{ item1 }} :</b><br>
+        {{description1}}
+      </p>
+      <p>
+        <b>{{ item2 }} :</b><br>
+        {{description2}}
+      </p>
     </div>
-      
   </div>
 </div>
 
