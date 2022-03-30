@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'VRCue_evaluation.urls'
@@ -123,3 +124,13 @@ LOGIN_URL = 'login'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#CSP
+CSP_DEFAULT_SRC = [
+    "'self'",
+    "https://cdn.jsdelivr.net",
+    "https://hcaptcha.com",
+    "https://*.hcaptcha.com",
+    "'unsafe-inline'"
+]
+CSP_BLOCK_ALL_MIXED_CONTENT=True
