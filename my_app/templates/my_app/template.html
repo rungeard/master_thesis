@@ -18,14 +18,14 @@
   </head>
   <body>
     <nav class="navbar navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Master thesis evaluation</a>
+      <div class="d-flex justify-content-between flex-wrap" style="width:100vw">
+        <a class="navbar-brand ms-2" href="/">Master thesis evaluation</a>
         <div class="d-flex justify-content-end">
           {% if user.is_authenticated %}
            <span class="navbar-text text-light me-2">
              You are connected as <b>{{user.username}}</b>
            </span>
-          <form action="/logout" method="get">
+          <form class="me-2" action="/logout" method="get">
             {% csrf_token %}
             <button class="btn btn-outline-light" type="submit">Logout <i class="bi bi-box-arrow-right"></i></button>
           </form>
@@ -34,7 +34,7 @@
             {% csrf_token %}
             <button class="btn btn-outline-light" type="submit"><i class="bi bi-person"></i> Login</button>
           </form>
-          <form action="/register" method="get">
+          <form class="me-2" action="/register" method="get">
             {% csrf_token %}
             <button class="btn btn-outline-primary" type="submit"><i class="bi bi-person-plus"></i> Register</button>
           </form>
