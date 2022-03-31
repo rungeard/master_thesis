@@ -131,10 +131,6 @@ CSP_DEFAULT_SRC = [
     "https://cdn.jsdelivr.net",
     "https://hcaptcha.com",
     "https://*.hcaptcha.com",
-]
-CSP_STYLE_SRC = [
-    "'self'",
-    "https://cdn.jsdelivr.net",
     "'unsafe-inline'"
 ]
 CSP_BLOCK_ALL_MIXED_CONTENT=True
