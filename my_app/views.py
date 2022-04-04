@@ -250,105 +250,105 @@ def task22(request, id_question, answer=None, nasa_tlx_dic=nasa_tlx_dic, AR=True
             description1 = nasa_tlx_dic[item1]
             item2 = "Performance"
             description2 = nasa_tlx_dic[item2]
-            complete = "21"
+            complete = "10"
         
         elif id_question == 1:
             item1 = "Temporal Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Frustration"
             description2 = nasa_tlx_dic[item2]
-            complete = "24"
+            complete = "15"
 
         elif id_question == 2:
             item1 = "Temporal Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Effort"
             description2 = nasa_tlx_dic[item2]
-            complete = "27"
+            complete = "20"
 
         elif id_question == 3:
             item1 = "Physical Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Frustration"
             description2 = nasa_tlx_dic[item2]
-            complete = "30"
+            complete = "25"
             
         elif id_question == 4:
             item1 = "Performance"
             description1 = nasa_tlx_dic[item1]
             item2 = "Frustration"
             description2 = nasa_tlx_dic[item2]
-            complete = "33"
+            complete = "30"
 
         elif id_question == 5:
             item1 = "Physical Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Temporal Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "36"
+            complete = "35"
 
         elif id_question == 6:
             item1 = "Physical Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Performance"
             description2 = nasa_tlx_dic[item2]
-            complete = "39"
+            complete = "40"
             
         elif id_question == 7:
             item1 = "Temporal Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Mental Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "42"
+            complete = "45"
             
         elif id_question == 8:
             item1 = "Frustration"
             description1 = nasa_tlx_dic[item1]
             item2 = "Effort"
             description2 = nasa_tlx_dic[item2]
-            complete = "45"
+            complete = "50"
             
         elif id_question == 9:
             item1 = "Performance"
             description1 = nasa_tlx_dic[item1]
             item2 = "Mental Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "48"
+            complete = "55"
             
         elif id_question == 10:
             item1 = "Performance"
             description1 = nasa_tlx_dic[item1]
             item2 = "Temporal Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "51"
+            complete = "60"
             
         elif id_question == 11:
             item1 = "Mental Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Effort"
             description2 = nasa_tlx_dic[item2]
-            complete = "54"
+            complete = "65"
 
         elif id_question == 12:
             item1 = "Mental Demand"
             description1 = nasa_tlx_dic[item1]
             item2 = "Physical Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "57"
+            complete = "70"
             
         elif id_question == 13:
             item1 = "Effort"
             description1 = nasa_tlx_dic[item1]
             item2 = "Physical Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "60"
+            complete = "75"
             
         elif id_question == 14:
             item1 = "Frustration"
             description1 = nasa_tlx_dic[item1]
             item2 = "Mental Demand"
             description2 = nasa_tlx_dic[item2]
-            complete = "63"
+            complete = "80"
         
     return render(request, 'my_app/survey2.html',locals())
 
@@ -419,28 +419,41 @@ def task24(request, AS_dic = AS_dic, AR = True):
         if AR :
             return redirect('task25')
         else:
-            return redirect('welcome')
+            return redirect('task45')
     return render(request, 'my_app/survey4.html', locals())
 
 @login_required
-def task25(request):
-    if not Custome_questions.objects.filter(user = request.user).exists():
-        c = Custome_questions(user = request.user)
-        c.save()
-    else:
-        c = Custome_questions.objects.get(user = request.user)
+def task25(request, AR = True):
+    if AR :
+        id_path = "2"
+        if not Custome_questions.objects.filter(user = request.user).exists():
+            c = Custome_questions(user = request.user)
+            c.save()
+        else:
+            c = Custome_questions.objects.get(user = request.user)
 
-    if c.complete():
-        return redirect('welcome')
+            if c.complete():
+                return redirect('welcome')
+    else:
+        id_path = "4"
+        if not Custome_questions_PDF.objects.filter(user = request.user).exists():
+            c = Custome_questions_PDF(user = request.user)
+            c.save()
+        else:
+            c = Custome_questions_PDF.objects.get(user = request.user)
+                
 
     if request.method == "POST":
-        c.age = request.POST['age']
-        c.experience = request.POST['experience']
-        c.discomfort = request.POST['discomfort']
-        c.daily_use = request.POST['daily_use']
-        c.pause_function = int(request.POST['pause_function'])
-        c.speed = int(request.POST['speed'])
-        c.visibility = int(request.POST['visibility'])
+        if AR :
+            c.age = request.POST['age']
+            c.experience = request.POST['experience']
+            c.discomfort = request.POST['discomfort']
+            c.daily_use = request.POST['daily_use']
+            c.pause_function = int(request.POST['pause_function'])
+            c.speed = int(request.POST['speed'])
+            c.visibility = int(request.POST['visibility'])
+            c.pause_use = request.POST['pause_use']
+            c.reverse_use = request.POST['reverse_use']
         c.free_text = request.POST['free_text'].replace(',',';')
         c.save()
         
@@ -635,7 +648,10 @@ def csv_results(request):
                      'pause_function',
                      'speed',
                      'visibility',
-                     'free_text',
+                     'pause_use',
+                     'reverse_use',
+                     'free_text_AR',
+                     'free_text_PDF',
                      'number of correct parts in AR',
                      'number of correct parts with PDF'
                      
@@ -651,6 +667,7 @@ def csv_results(request):
             as_ar = AS_AR.objects.get(user=u)
             as_pdf = AS_PDF.objects.get(user=u)
             c = Custome_questions.objects.get(user=u)
+            c2 = Custome_questions_PDF.objects.get(user=u)
             l = ['','']
             if Assembly.objects.filter(user=u).exists():
                 assembly = Assembly.objects.get(user=u)
@@ -717,7 +734,10 @@ def csv_results(request):
                              c.pause_function,
                              c.speed,
                              c.visibility,
-                             c.free_text
+                             c.pause_use,
+                             c.reverse_use,
+                             c.free_text,
+                             c2.free_text
             ]+l)
             
     return response

@@ -2,10 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+class Custome_questions_PDF(models.Model):
+    class Meta: 
+        verbose_name = "Custom question PDF"
+        verbose_name_plural = "Custom questions PDF"
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
+    free_text = models.TextField(null=True)
+        
 class Custome_questions(models.Model):
     class Meta: 
-        verbose_name = "Custom question"
-        verbose_name_plural = "Custom questions"
+        verbose_name = "Custom question AR"
+        verbose_name_plural = "Custom questions AR"
         
     user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
     age = models.CharField(
@@ -53,6 +60,26 @@ class Custome_questions(models.Model):
         default=None,
         null=True,
     )
+    pause_use = models.CharField(
+        choices=[
+            ('0', 'No'),
+            ('1', 'Yes'),
+            (None, 'Not answered'),
+        ],
+        max_length=20,
+        default=None,
+        null=True,
+    )
+    reverse_use = models.CharField(
+        choices=[
+            ('0', 'No'),
+            ('1', 'Yes'),
+            (None, 'Not answered'),
+        ],
+        max_length=20,
+        default=None,
+        null=True,
+    )
     pause_function = models.PositiveSmallIntegerField(null=True)
     speed = models.PositiveSmallIntegerField(null=True)
     visibility = models.PositiveSmallIntegerField(null=True)
@@ -65,6 +92,8 @@ class Custome_questions(models.Model):
         b *= self.discomfort != None
         b *= self.daily_use != None
         b *= self.pause_function != None
+        b *= self.pause_use != None
+        b *= self.reverse_use != None
         b *= self.speed != None 
         b *= self.visibility != None
         return bool(b)

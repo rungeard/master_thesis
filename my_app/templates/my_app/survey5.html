@@ -10,10 +10,10 @@
     <h1 class="text-center my-5">Survey - General questions</h1>
     <p class="text-center"><b> Please answer the following questions.</b></p>  
   </div>
-  <form action="/task2/part5" method="POST">
+  <form action="/task{{id_path}}/part5" method="POST">
     {% csrf_token %}
     <div class="d-flex flex-column align-items-center">
-
+       {% if AR %}
        <div class="my-3" style="width: 90vw; max-width:20cm">
          <p> How old are you? </p>
          <select class="form-select" id="age" name="age" required>
@@ -58,6 +58,30 @@
           <label class="form-check-label" for="no_daily_use">I would prefer a traditional method</label>
         </div>
       </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> Did you use the pause function (grabbing the ghost's head) ? </p>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="pause_use" id="yes_pause_use" value="1" required>
+          <label class="form-check-label" for="yes_pause_use">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="pause_use" id="no_pause_use" value="0">
+          <label class="form-check-label" for="no_pause_use">No</label>
+        </div>
+      </div>
+
+      <div class="my-3" style="width: 90vw; max-width:20cm">
+        <p> Did you use the reverse functionality ? </p>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="reverse_use" id="yes_reverse_use" value="1" required>
+          <label class="form-check-label" for="yes_reverse_use">Yes</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="reverse_use" id="no_reverse_use" value="0">
+          <label class="form-check-label" for="no_reverse_use">No</label>
+        </div>
+      </div>
       
       <div class="my-3" style="width: 90vw; max-width:20cm">
         <p> Did you find the pause function (grabbing the ghost's head) easy to use? </p>
@@ -85,7 +109,8 @@
         </div>
         <input type="range" class="form-range" min="1" max="5" step="1" id="visibility" name="visibility">
       </div>
-
+      {% endif %}
+     
       <div class="my-3" style="width: 90vw; max-width:20cm">
         <label for="free_text" class="form-label">Any other comments ?</label>
         <textarea class="form-control" name="free_text" id="free_text" rows="5" placeholder="Feel free to express yourself"></textarea>

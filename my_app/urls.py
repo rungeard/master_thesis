@@ -33,4 +33,5 @@ urlpatterns = [
     path('task4/part2/<int:id_question>/<str:answer>', views.task22, {'AR':False}, name='task42_answer'),
     path('task4/part3', views.task23, {'AR':False}, name='task43'),
     path('task4/part4', views.task24, {'AR':False}, name='task44'),
+    path('task4/part5', views.task25, {'AR':False}, name='task45'),
 ]

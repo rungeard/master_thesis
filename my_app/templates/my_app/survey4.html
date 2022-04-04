@@ -4,11 +4,7 @@
 
 <div class="d-flex flex-column align-items-center">
   <div class="progress mt-5" style="width:90%">
-    {% if AR %}
-    <div class="progress-bar" role="progressbar" style="width: 95%;" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">95%</div>
-    {% else %}
-    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-    {% endif %}
+    <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
   </div>
   <div>
     <h1 class="text-center my-5">Survey - After-Scenario Questionnaire  </h1>
@@ -28,11 +24,7 @@
       </div>
       {% endfor %}
       <div class="text-center">
-        {% if AR %}
         <button type="submit" class="btn btn-primary btn-lg my-5">Next <i class="bi bi-arrow-right-short"></i></button>
-        {% else %}
-        <button type="submit" class="btn btn-success btn-lg my-5">Save my answers <i class="bi bi-send-check"></i></button>
-        {% endif %}
       </div>
     </div>
   </form>
