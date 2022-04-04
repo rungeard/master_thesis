@@ -454,6 +454,7 @@ def task25(request, AR = True):
             c.visibility = int(request.POST['visibility'])
             c.pause_use = request.POST['pause_use']
             c.reverse_use = request.POST['reverse_use']
+            c.glasses = request.POST['glasses']
         c.free_text = request.POST['free_text'].replace(',',';')
         c.save()
         
@@ -586,7 +587,7 @@ def csv_results(request):
     )
 
     writer = csv.writer(response)
-    writer.writerow(['user_id',
+    writer.writerow(['username',
                      'time spent AR (in s)',
                      'nasa tlx mental demand rating AR',
                      'nasa tlx mental demand tally AR',
@@ -650,6 +651,7 @@ def csv_results(request):
                      'visibility',
                      'pause_use',
                      'reverse_use',
+                     'glasses',
                      'free_text_AR',
                      'free_text_PDF',
                      'number of correct parts in AR',
@@ -672,7 +674,7 @@ def csv_results(request):
             if Assembly.objects.filter(user=u).exists():
                 assembly = Assembly.objects.get(user=u)
                 l = [assembly.AR,assembly.PDF]
-            writer.writerow([u.id,
+            writer.writerow([u.username,
                              t_ar.time_spent().total_seconds(),
                              nasa_tlx_ar.Mental_Demand_Rating,
                              nasa_tlx_ar.Mental_Demand_Tally(),
@@ -736,6 +738,7 @@ def csv_results(request):
                              c.visibility,
                              c.pause_use,
                              c.reverse_use,
+                             c.glasses,
                              c.free_text,
                              c2.free_text
             ]+l)

@@ -80,6 +80,16 @@ class Custome_questions(models.Model):
         default=None,
         null=True,
     )
+    glasses = models.CharField(
+        choices=[
+            ('0', 'No'),
+            ('1', 'Yes'),
+            (None, 'Not answered'),
+        ],
+        max_length=20,
+        default=None,
+        null=True,
+    )
     pause_function = models.PositiveSmallIntegerField(null=True)
     speed = models.PositiveSmallIntegerField(null=True)
     visibility = models.PositiveSmallIntegerField(null=True)
@@ -93,6 +103,7 @@ class Custome_questions(models.Model):
         b *= self.daily_use != None
         b *= self.pause_function != None
         b *= self.pause_use != None
+        b *= self.glasses != None
         b *= self.reverse_use != None
         b *= self.speed != None 
         b *= self.visibility != None
